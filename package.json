@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/Rodri27M/api_proyectoNTD/issues"
   },
-  "homepage": "https://github.com/Rodri27M/api_proyectoNTD#readme"
+  "homepage": "https://github.com/Rodri27M/api_proyectoNTD#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
 }
