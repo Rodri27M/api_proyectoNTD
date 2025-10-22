@@ -20,5 +20,8 @@
   "homepage": "https://github.com/Rodri27M/api_proyectoNTD#readme",
   "dependencies": {
     "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }
