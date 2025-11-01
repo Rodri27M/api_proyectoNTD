@@ -33,7 +33,22 @@ const eventoSchema = new mongoose.Schema({
   capacidad: {
     type: Number,
     required: true,
-  }
+  },
+  organizador: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Usuario",
+    required: true,
+  },
+  inscritos: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Inscripcion",
+    },
+  ],
+  creadoEn: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const Evento = mongoose.model("Evento", eventoSchema);
