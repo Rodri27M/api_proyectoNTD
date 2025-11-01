@@ -10,7 +10,16 @@ const inscripcionSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Evento",
     required: true,
-  }
+  },
+  fechaInscripcion: {
+    type: Date,
+    default: Date.now,
+  },
+  estado: {
+    type: String,
+    enum: ["pendiente", "confirmada", "cancelada"],
+    default: "pendiente",
+  },
 });
 
 const Inscripcion = mongoose.model("Inscripcion", inscripcionSchema);
