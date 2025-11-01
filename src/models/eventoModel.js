@@ -13,6 +13,17 @@ const eventoSchema = new mongoose.Schema({
   fecha: {
     type: Date,
     required: true,
+  },
+  horaInicio: {
+    type: String,
+    required: true,
+  },
+  horaFin: {
+    type: String,
+  },
+  lugar: {
+    type: String,
+    required: true,
   }
 });
 
