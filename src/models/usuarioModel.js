@@ -21,7 +21,29 @@ const usuarioSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 6,
-  }
+  },
+  rol: {
+    type: String,
+    enum: ["estudiante", "organizador", "administrador"],
+    default: "estudiante",
+  },
+  facultad: {
+    type: String,
+    trim: true,
+  },
+  telefono: {
+    type: String,
+  },
+  fechaRegistro: {
+    type: Date,
+    default: Date.now,
+  },
+  eventosInscritos: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Evento",
+    },
+  ],
 });
 
 const Usuario = mongoose.model("Usuario", usuarioSchema);
