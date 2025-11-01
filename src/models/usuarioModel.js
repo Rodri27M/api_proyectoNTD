@@ -9,7 +9,19 @@ const usuarioSchema = new mongoose.Schema({
   apellido: {
     type: String,
     required: true,
-    trim: true}
+    trim: true,
+  },
+  correo: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+  },
+  contraseña: {
+    type: String,
+    required: true,
+    minlength: 6,
+  }
 });
 
 const Usuario = mongoose.model("Usuario", usuarioSchema);
