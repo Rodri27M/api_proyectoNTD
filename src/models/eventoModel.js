@@ -24,6 +24,15 @@ const eventoSchema = new mongoose.Schema({
   lugar: {
     type: String,
     required: true,
+  },
+  categoria: {
+    type: String,
+    enum: ["académico", "cultural", "deportivo", "social"],
+    required: true,
+  },
+  capacidad: {
+    type: Number,
+    required: true,
   }
 });
 
