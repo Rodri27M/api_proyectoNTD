@@ -1,15 +1,16 @@
 import express from "express";
+import cors from "cors";
 
 const app = express();
 
-// Middleware para procesar JSON
+// Middlewares
+app.use(cors());
 app.use(express.json());
 
 // Ruta de prueba
 app.get("/", (req, res) => {
-  res.send("Servidor funcionando correctamente 🚀");
+  res.send("API KonEventos lista para recibir peticiones 🧩");
 });
 
-// Puerto del servidor
 const PORT = 5000;
 app.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`));
