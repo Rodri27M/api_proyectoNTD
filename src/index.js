@@ -1,25 +1,23 @@
-import express from "express";
-import cors from "cors";
-import mongoose from "mongoose";
-import usuarioRoutes from "./routes/usuario.js";
-app.use("/api/usuarios", usuarioRoutes);
-
+require("dotenv").config();
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const usuarioRoutes = require("./routes/usuario");
 
 const app = express();
+const port = process.env.PORT || 3000;
 
-// Middlewares
-app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(express.json());
 
-// Ruta de prueba
-app.get("/", (req, res) => {
-  res.send("API KonEventos lista para recibir peticiones ");
-});
-
-const PORT = 5000;
-app.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`));
-// Conexión a MongoDB
 mongoose
-  .connect("mongodb://127.0.0.1:27017/koneventos")
-  .then(() => console.log(" Conectado a MongoDB"))
-  .catch((err) => console.error(" Error de conexión:", err));
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("Conexión exitosa a MongoDB Atlas"))
+  .catch((error) => console.error("Error de conexión:", error.message));
+
+app.use("/api", usuarioRoutes);
+
+app.get("/", (req, res) => res.json({ message: "API de Usuarios funcionando" }));
+
+app.listen(port, () => console.log(`Servidor corriendo en puerto ${port}`));
