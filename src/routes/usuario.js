@@ -35,5 +35,27 @@ router.get("/", async (req, res) => {
     });
   }
 });
+// Actualizar un usuario por ID
+router.put("/:id", async (req, res) => {
+  try {
+    const usuarioActualizado = await Usuario.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    if (!usuarioActualizado) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado" });
+    }
+    res.status(200).json({
+      mensaje: "Usuario actualizado correctamente",
+      usuario: usuarioActualizado,
+    });
+  } catch (error) {
+    res.status(400).json({
+      mensaje: "Error al actualizar el usuario",
+      error: error.message,
+    });
+  }
+});
 
 export default router;
