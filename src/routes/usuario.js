@@ -57,5 +57,20 @@ router.put("/:id", async (req, res) => {
     });
   }
 });
+// Eliminar un usuario por ID
+router.delete("/:id", async (req, res) => {
+  try {
+    const usuarioEliminado = await Usuario.findByIdAndDelete(req.params.id);
+    if (!usuarioEliminado) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado" });
+    }
+    res.status(200).json({ mensaje: "Usuario eliminado correctamente" });
+  } catch (error) {
+    res.status(400).json({
+      mensaje: "Error al eliminar el usuario",
+      error: error.message,
+    });
+  }
+});
 
 export default router;
