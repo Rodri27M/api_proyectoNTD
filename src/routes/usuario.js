@@ -39,7 +39,7 @@ router.post("/usuario", validarUsuario, async (req, res) => {
 });
 
 // Actualizar un usuario por ID
-router.put("/usuario:id", async (req, res) => {
+router.put("/usuario/:id", async (req, res) => {
     try {
         const usuarioActualizado = await Usuario.findByIdAndUpdate(
             req.params.id,
@@ -62,7 +62,7 @@ router.put("/usuario:id", async (req, res) => {
 });
 
 // Eliminar un usuario por ID
-router.delete("/usuario:id", async (req, res) => {
+router.delete("/usuario/:id", async (req, res) => {
     try {
         const usuarioEliminado = await Usuario.findByIdAndDelete(req.params.id);
         if (!usuarioEliminado) {
