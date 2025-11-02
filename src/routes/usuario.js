@@ -20,6 +20,23 @@ router.get("/usuario", async (req, res) => {
         });
     }
 });
+//obtener un usuario por ID
+router.get("/usuario/:id", async (req, res) => {
+    try {
+        const usuario = await Usuario.findById(req.params.id);
+
+        if (!usuario) {
+            return res.status(404).json({ mensaje: "Usuario no encontrado" });
+        }
+
+        res.status(200).json(usuario);
+    } catch (error) {
+        res.status(500).json({
+            mensaje: "Error al obtener el usuario",
+            error: error.message,
+        });
+    }
+});
 
 // Crear nuevo usuario
 router.post("/usuario", validarUsuario, async (req, res) => {
