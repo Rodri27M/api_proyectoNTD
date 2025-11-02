@@ -4,7 +4,7 @@ const Inscripcion = require("../models/inscripcionModel");
 const router = express.Router();
 
 // Crear una nueva inscripción
-router.post("/inscripcion", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const nuevaInscripcion = new Inscripcion(req.body);
     await nuevaInscripcion.save();
@@ -21,7 +21,7 @@ router.post("/inscripcion", async (req, res) => {
 });
 
 // Obtener todas las inscripciones
-router.get("/inscripcion", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const inscripciones = await Inscripcion.find()
       .populate("usuario")
@@ -36,7 +36,7 @@ router.get("/inscripcion", async (req, res) => {
 });
 
 // Obtener una inscripción por ID
-router.get("/inscripcion/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const inscripcion = await Inscripcion.findById(req.params.id)
       .populate("usuario")
@@ -54,7 +54,7 @@ router.get("/inscripcion/:id", async (req, res) => {
 });
 
 // Actualizar una inscripción por ID
-router.put("/inscripcion/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const inscripcionActualizada = await Inscripcion.findByIdAndUpdate(
       req.params.id,
@@ -77,7 +77,7 @@ router.put("/inscripcion/:id", async (req, res) => {
 });
 
 // Eliminar una inscripción por ID
-router.delete("/inscripcion/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const inscripcionEliminada = await Inscripcion.findByIdAndDelete(req.params.id);
     if (!inscripcionEliminada) {

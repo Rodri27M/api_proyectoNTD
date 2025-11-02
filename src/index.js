@@ -12,23 +12,26 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Middlewares
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Conexión a MongoDB Atlas
 mongoose
   .connect(process.env.MONGODB_URI)
-  .then(() => console.log("Conexión exitosa a MongoDB Atlas"))
-  .catch((error) => console.error("Error de conexión:", error.message));
+  .then(() => console.log("✅ Conexión exitosa a MongoDB Atlas"))
+  .catch((error) => console.error("❌ Error de conexión:", error.message));
 
 // Rutas base de la API
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/eventos", eventoRoutes);
 app.use("/api/inscripciones", inscripcionRoutes);
 
-// Ruta raíz para verificar funcionamiento
-app.get("/", (req, res) => res.json({ message: "API KonEventos funcionando correctamente" }));
+// Ruta raíz
+app.get("/", (req, res) => {
+  res.json({ mensaje: "🚀 API KonEventos funcionando correctamente" });
+});
 
 // Iniciar servidor
-app.listen(port, () => console.log(`Servidor corriendo en puerto ${port}`));
+app.listen(port, () => {
+  console.log(`🌐 Servidor corriendo en puerto ${port}`);
+});

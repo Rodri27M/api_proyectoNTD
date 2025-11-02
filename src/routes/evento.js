@@ -1,5 +1,5 @@
-import express from "express";
-import Evento from "../models/eventoModel.js";
+const express = require("express");
+const Evento = require("../models/eventoModel");
 
 const router = express.Router();
 
@@ -88,4 +88,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;
