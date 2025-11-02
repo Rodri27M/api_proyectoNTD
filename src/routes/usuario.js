@@ -1,14 +1,15 @@
 import express from "express";
 const router = express.Router();
 import Usuario from "../models/usuarioModel.js";
+import { validarUsuario } from "../middlewares/validarUsuario.js";
 
 // Ruta de prueba
 router.get("/", (req, res) => {
   res.send("Ruta de usuarios funcionando correctamente ");
 });
 
-// Crear un nuevo usuario
-router.post("/", async (req, res) => {
+// Crear un nuevo usuario con validación
+router.post("/", validarUsuario, async (req, res) => {
   try {
     const nuevoUsuario = new Usuario(req.body);
     await nuevoUsuario.save();
@@ -23,6 +24,7 @@ router.post("/", async (req, res) => {
     });
   }
 });
+
 // Obtener todos los usuarios
 router.get("/", async (req, res) => {
   try {
