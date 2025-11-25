@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const Usuario = require('../models/usuarioModel');
 
 // Middleware de validación
@@ -48,6 +50,62 @@ router.post("/", validarUsuario, async (req, res) => {
     } catch (error) {
         res.status(400).json({
             mensaje: "Error al crear el usuario",
+            error: error.message,
+        });
+    }
+});
+
+router.post('/login', async (req, res) => {
+    const { correo, contraseña } = req.body;
+
+    if (!correo || !contraseña) {
+        return res.status(400).json({
+            mensaje: 'Correo y contraseña son obligatorios',
+        });
+    }
+
+    try {
+        const usuario = await Usuario.findOne({ correo });
+
+        if (!usuario) {
+            return res.status(401).json({ mensaje: 'Credenciales inválidas' });
+        }
+
+        const esValida = await bcrypt.compare(contraseña, usuario.contraseña);
+
+        if (!esValida) {
+            return res.status(401).json({ mensaje: 'Credenciales inválidas' });
+        }
+
+        const payload = {
+            id: usuario._id,
+            correo: usuario.correo,
+            rol: usuario.rol,
+        };
+
+        const token = jwt.sign(payload, process.env.JWT_SECRET || 'dev_secret', {
+            expiresIn: '1h',
+        });
+
+        const usuarioSinPassword = {
+            _id: usuario._id,
+            nombre: usuario.nombre,
+            apellido: usuario.apellido,
+            correo: usuario.correo,
+            rol: usuario.rol,
+            facultad: usuario.facultad,
+            telefono: usuario.telefono,
+            fechaRegistro: usuario.fechaRegistro,
+        };
+
+        res.status(200).json({
+            mensaje: 'Login exitoso',
+            token,
+            usuario: usuarioSinPassword,
+        });
+    } catch (error) {
+        res.status(500).json({
+            mensaje: 'Error en el proceso de login',
             error: error.message,
         });
     }
