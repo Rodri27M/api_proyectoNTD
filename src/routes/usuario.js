@@ -41,7 +41,15 @@ router.get("/:id", async (req, res) => {
 // Crear nuevo usuario
 router.post("/", validarUsuario, async (req, res) => {
     try {
-        const nuevoUsuario = new Usuario(req.body);
+        const { contraseña } = req.body;
+
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(contraseña, saltRounds);
+
+        const nuevoUsuario = new Usuario({
+            ...req.body,
+            contraseña: hashedPassword,
+        });
         await nuevoUsuario.save();
         res.status(201).json({
             mensaje: "Usuario creado correctamente",
@@ -114,6 +122,10 @@ router.post('/login', async (req, res) => {
 // Actualizar un usuario por ID
 router.put("/:id", async (req, res) => {
     try {
+        if (req.body.contraseña) {
+            const saltRounds = 10;
+            req.body.contraseña = await bcrypt.hash(req.body.contraseña, saltRounds);
+        }
         const usuarioActualizado = await Usuario.findByIdAndUpdate(
             req.params.id,
             req.body,
