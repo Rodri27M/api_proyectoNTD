@@ -1,13 +1,32 @@
 const express = require("express");
 const Inscripcion = require("../models/inscripcionModel");
+const Usuario = require("../models/usuarioModel");
+const Evento = require("../models/eventoModel");
 
 const router = express.Router();
 
 // Crear una nueva inscripción
 router.post("/", async (req, res) => {
   try {
-    const nuevaInscripcion = new Inscripcion(req.body);
-    await nuevaInscripcion.save();
+    const { usuario, evento, estado } = req.body;
+
+    // 1. Crear la inscripción
+    const nuevaInscripcion = await Inscripcion.create({
+      usuario,
+      evento,
+      estado: estado || "pendiente",
+    });
+
+    // 2. Actualizar usuario: agregar evento a eventosInscritos
+    await Usuario.findByIdAndUpdate(usuario, {
+      $addToSet: { eventosInscritos: evento },
+    });
+
+    // 3. Actualizar evento: agregar inscripción a inscritos
+    await Evento.findByIdAndUpdate(evento, {
+      $addToSet: { inscritos: nuevaInscripcion._id },
+    });
+
     res.status(201).json({
       mensaje: "Inscripción creada correctamente",
       inscripcion: nuevaInscripcion,
